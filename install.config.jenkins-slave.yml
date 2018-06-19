@@ -1,0 +1,8 @@
+---
+
+- hosts: task-jenkins-slave
+  remote_user: ansible
+  become: true
+
+  roles:
+    - install.jenkins-slave

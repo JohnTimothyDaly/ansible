@@ -1,0 +1,10 @@
+---
+
+- hosts: task-mariadb
+  remote_user: ansible
+  become: true
+
+  roles:
+    - install.mariadb-vendor-repo
+    - install.mariadb-vendor
+    #- config.mariadb

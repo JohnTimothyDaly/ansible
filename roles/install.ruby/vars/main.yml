@@ -1,0 +1,4 @@
+---
+
+ruby_two_three_package: https://github.com/feedforce/ruby-rpm/releases/download/2.3.5/ruby-2.3.5-1.el7.centos.x86_64.rpm
+ruby_two_four_package: https://github.com/feedforce/ruby-rpm/releases/download/2.4.2/ruby-2.4.2-1.el7.centos.x86_64.rpm

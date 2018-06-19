@@ -1,0 +1,28 @@
+---
+
+- name: download minio
+  get_url:
+    url: https://dl.minio.io/server/minio/release/linux-amd64/minio
+    dest: /usr/local/bin
+    mode: 0755
+
+- name: install firewalld
+  yum:
+    name: firewalld
+    state: present
+
+- name: ensure firewalld is running
+  service:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: set firewall rule for 9000/tcp
+  become: true
+  firewalld:
+    port: 9000/tcp
+    state: enabled
+    permanent: true
+    immediate: true
+
+

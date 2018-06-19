@@ -1,0 +1,8 @@
+---
+
+- hosts: task-ruby
+  remote_user: ansible
+  become: true
+
+  roles:
+    - install.ruby

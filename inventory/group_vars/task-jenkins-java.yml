@@ -1,0 +1,4 @@
+---
+
+rvm_user: jenkins
+rvm_ruby_version: ruby-2.4.2

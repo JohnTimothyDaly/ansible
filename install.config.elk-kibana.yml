@@ -1,0 +1,9 @@
+---
+
+- hosts: task-elk-kibana
+  remote_user: ansible
+  become: true
+
+  roles:
+    - install.node
+    #- install.elk-kibanas

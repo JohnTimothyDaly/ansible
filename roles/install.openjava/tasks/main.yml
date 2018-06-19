@@ -1,0 +1,45 @@
+---
+
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}{{ ansible_distribution_major_version}}.yml"
+    - "{{ ansible_distribution }}.yml"
+  tags: vars
+
+- name: Define java_packages.
+  set_fact:
+    java_packages: "{{ __java_packages | list }}"
+  when: java_packages is not defined
+
+# Setup/install tasks.
+- name: include task for CentOS7
+  import_tasks: CentOS7.yml
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == '7'
+  tags: include
+
+- name: include task for Ubuntu16.04
+  import_tasks: Ubuntu16.04.yml
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == '16.04'
+  tags: include
+
+- name: Get java home
+  shell: dirname $(dirname $(readlink -f $(which java)))
+  register: java_home
+  changed_when: false
+  
+- name: set java home facts 
+  set_fact:
+    java_home: "{{ java_home.stdout }}"
+  when: java_home.stdout|default("") != ""
+
+# Environment setup.
+- name: Set JAVA_HOME if configured.
+  template:
+    src: java_home.sh.j2
+    dest: /etc/profile.d/java_home.sh
+    mode: 0644
+  when: java_home is defined and java_home != ''
+
+
+

@@ -1,0 +1,7 @@
+---
+# Set java_packages if you would like to use a different version than the
+# default (OpenJDK 1.8).
+# java_packages: []
+
+java_version: 1.8.0
+java_headless: false

@@ -1,0 +1,5 @@
+---
+
+jenkins_user_path: /home/jenkins
+fastlane_path: /usr/local/bin/fastlane
+bundler_path: /usr/local/bin/bundler

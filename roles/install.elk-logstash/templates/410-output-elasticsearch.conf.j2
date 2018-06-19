@@ -1,0 +1,8 @@
+  elasticsearch {
+    hosts => ["{{ elasticsearch_ip }}:9200"]
+    index => "logstash-%{type}-%{+YYYY.MM.dd}"
+{% if has_x_pack %}
+    user => "{{ elasticsearch_user }}"
+    password =>  "{{ elasticsearch_password }}"
+{% endif %}
+  }

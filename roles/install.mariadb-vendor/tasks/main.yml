@@ -1,0 +1,17 @@
+---
+
+- name: Install MariaDB Server
+  package:
+    name: MariaDB-server
+    state: present
+
+- name: Install MariaDB Client
+  package:
+    name: MariaDB-client
+    state: present
+
+- name: Enable and run MariaDB
+  service:
+    name: mariadb
+    enabled: yes
+    state: started

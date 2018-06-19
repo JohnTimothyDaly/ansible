@@ -1,0 +1,8 @@
+---
+
+mariadb_repo_version: 10.3
+mariadb_repo_rpm_baseurl: http://yum.mariadb.org/{{ mariadb_repo_version }}/centos7-amd64
+mariadb_repo_name: "mariadb{{ mariadb_repo_version | regex_replace('.', '') }}-vendor"
+mariadb_repo_filename: mariadb-vendor
+mariadb_repo_description: "MariaDB {{ mariadb_repo_version }} Server Vendor Repo"
+mariadb_repo_key_url: "https://yum.mariadb.org/RPM-GPG-KEY-MariaDB"

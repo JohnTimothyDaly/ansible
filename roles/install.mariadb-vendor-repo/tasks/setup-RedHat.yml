@@ -1,0 +1,13 @@
+--- 
+
+- name: Install MariaDB Vendor repo
+  yum_repository:
+    name: "{{ mariadb_repo_name }}"
+    file: "{{ mariadb_repo_filename }}"
+    baseurl: "{{ mariadb_repo_rpm_baseurl }}"
+    description: "{{ mariadb_repo_description }}"
+    enabled: yes
+  notify: yum-clean-all
+
+- name: Import MariaDB Vendor GPG key
+  rpm_key: key="{{ mariadb_repo_key_url }}" state=present

@@ -1,0 +1,7 @@
+---
+
+ansible_host: <IP>
+has_x_pack: false
+takes_tomcat_syslog: false
+takes_sds_system_log_syslog: false
+elasticsearch_ip: <IP>

@@ -1,0 +1,5 @@
+---
+
+jenkins_app_path: /var/lib/jenkins
+rvm_user: jenkins
+rvm_ruby_version: ruby-2.4.2

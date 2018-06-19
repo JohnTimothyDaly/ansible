@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
+    <server>
+      <id>central</id>
+      <username>{{ artifactory_username }}</username>
+      <password>{{ artifactory_password }}</password>
+    </server>
+    <server>
+      <id>snapshots</id>
+      <username>{{ artifactory_username }}</username>
+      <password>{{ artifactory_password }}</password>
+    </server>
+    <server>
+      <id>artifactory.dracoon.com</id>
+      <username>{{ artifactory_username }}</username>
+      <password>{{ artifactory_password }}</password>
+    </server>
+    <server>
+      <id>remote-repos</id>
+      <username>{{ artifactory_username }}</username>
+      <password>{{ artifactory_password }}</password>
+    </server>
+  </servers>
+  <profiles>
+    <profile>
+      <repositories>
+        <repository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>central</id>
+          <name>libs-release</name>
+          <url>https://artifactory.dracoon.com/artifactory/libs-release</url>
+        </repository>
+        <repository>
+          <snapshots/>
+          <id>snapshots</id>
+          <name>libs-snapshot</name>
+          <url>https://artifactory.dracoon.com/artifactory/libs-snapshot</url>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>central</id>
+          <name>plugins-release</name>
+          <url>https://artifactory.dracoon.com/artifactory/plugins-release</url>
+        </pluginRepository>
+        <pluginRepository>
+          <snapshots/>
+          <id>snapshots</id>
+          <name>plugins-snapshot</name>
+          <url>https://artifactory.dracoon.com/artifactory/plugins-snapshot</url>
+        </pluginRepository>
+      </pluginRepositories>
+      <properties>
+        <snapshot.deploy.id>artifactory.dracoon.com</snapshot.deploy.id>
+        <snapshot.deploy.name>artifactory.dracoon.com-snapshots</snapshot.deploy.name>
+        <snapshot.deploy.url>https://artifactory.dracoon.com/artifactory/libs-snapsot-local</snapshot.deploy.url>
+      </properties>
+      <id>artifactory</id>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>artifactory</activeProfile>
+  </activeProfiles>
+</settings>

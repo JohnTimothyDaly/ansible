@@ -1,0 +1,20 @@
+---
+- name: install version controll systems
+  homebrew: pkg={{ item }} state=present update_homebrew=yes
+  #become: true
+  become_user: ansible
+  with_items:
+    - git
+    - subversion
+    - java
+    - ruby
+    - carthage
+
+- name: check if jenkins user is admin
+  script: files/mac-check-if-admin.rb jenkins
+  register: admin_check_output
+  changed_when: False
+
+- name: make jenkins admin
+  script: files/mac-add-admin.sh jenkins
+  when: admin_check_output.stdout == "not_admin"

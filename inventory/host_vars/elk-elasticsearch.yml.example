@@ -1,0 +1,4 @@
+---
+
+ansible_host: <IP>
+elasticsearch_cluster_name: elk-elasticsearch-01

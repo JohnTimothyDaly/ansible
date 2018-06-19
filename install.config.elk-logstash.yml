@@ -1,0 +1,9 @@
+---
+
+- hosts: task-elk-logstash
+  remote_user: ansible
+  become: true
+
+  roles:
+    - install.openjava
+    - install.elk-logstash

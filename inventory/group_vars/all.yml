@@ -1,0 +1,8 @@
+---
+
+jenkins_master_ssh_public_key: 
+jenkins_slave_ssh_public_key: 
+
+artifactory_user: 
+artifactory_password: 
+artifactory_url: 

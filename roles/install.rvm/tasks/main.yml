@@ -1,0 +1,67 @@
+---
+
+- name: ensure EPEL is enabled
+  become: true
+  yum:
+    name: epel-release
+    state: present
+
+# you need this to build c/c++ based extentions, like for fastlane 
+- name: install tools
+  become: true
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - "@Development tools"
+    - patch
+    - automake
+    - readline
+    - readline-devel
+    - zlib
+    - zlib-devel
+    - curl
+    - libcurl-devel
+    - libyaml
+    - libyaml-devel
+    - libffi
+    - libffi-devel
+    - openssl
+    - openssl-devel
+    - sqlite
+    - sqlite-devel
+    - wget
+
+- name: check if rvm needs to be installed 
+  stat:
+    path: "/home/{{ rvm_user }}/.rvm/bin/rvm"
+  register: has_rvm
+
+- name: download install-rvm.sh
+  get_url:
+    url: https://get.rvm.io
+    dest: "/home/{{ rvm_user }}/install-rvm.sh"
+    mode: 0755
+    #group: "{{ rvm_user }}"
+    owner: "{{ rvm_user }}"
+  when: not has_rvm.stat.exists
+
+- name: install rvm
+  become: true
+  become_user: "{{ rvm_user }}"
+  shell: "/home/{{ rvm_user }}/install-rvm.sh"
+  when: not has_rvm.stat.exists
+
+- name: remove install-rvm.sh
+  file:
+    path: "/home/{{ rvm_user }}/install-rvm.sh"
+    state: absent
+
+- name: check if ruby version needs to be installed 
+  stat:
+    path: "/home/{{ rvm_user }}/.rvm/rubies/{{ rvm_ruby_version }}/bin"
+  register: has_ruby_versikon
+
+- name: "install ruby {{ rvm_ruby_version }}"
+  become: true
+  become_user: "{{ rvm_user }}"
+  shell: ". /home/{{ rvm_user }}/.bashrc && rvm install {{ rvm_ruby_version }}"
+  when: not has_ruby_versikon.stat.exists

@@ -1,0 +1,10 @@
+---
+
+- hosts: task-jenkins-master
+  remote_user: ansible
+  become: true
+
+  roles:
+    - install.ruby
+    - install.openjava
+    - install.jenkins-master

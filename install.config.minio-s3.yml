@@ -1,0 +1,8 @@
+---
+
+- hosts: task-minio-s3
+  remote_user: ansible
+  become: true
+
+  roles:
+    - install.minio-s3

@@ -1,0 +1,6 @@
+---
+
+- name: yum-clean-all
+  command: yum clean all
+  args:
+    warn: no

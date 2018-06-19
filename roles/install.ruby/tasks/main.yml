@@ -1,0 +1,64 @@
+---
+
+- name: ensure EPEL is enabled
+  become: true
+  yum:
+    name: epel-release
+    state: present
+
+# you need this to build c/c++ based extentions, like for fastlane 
+- name: install tools
+  become: true
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - "@Development tools"
+    - patch
+    - automake
+    - readline
+    - readline-devel
+    - zlib
+    - zlib-devel
+    - curl
+    - libcurl-devel
+    - libyaml
+    - libyaml-devel
+    - libffi
+    - libffi-devel
+    - openssl
+    - openssl-devel
+    - sqlite
+    - sqlite-devel
+    - wget
+
+# make sure i add the correct version for 
+# json, rest-client and so on
+
+- name: install ruby
+  become: yes
+  yum:
+    name: "{{ ruby_two_three_package }}"
+    state: present
+
+- name: install bundler
+  become: yes
+  gem:
+    name: bundler
+    state: latest
+
+- name: install rake
+  become: yes
+  gem:
+    name: rake
+    state: latest
+
+- name: install thor
+  become: yes
+  gem:
+    name: rake
+    state: latest
+
+- name: install fastlane
+  become: yes
+  gem:
+    name: fastlane
+    state: latest

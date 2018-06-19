@@ -1,0 +1,18 @@
+TODO
+* LANGUAGES
+  * update languages (ruby, javascript/node, python3, java, elixir)
+  * move to oracle java?
+  * add/update env versions of languages (pyenv, rvm, nvm)
+  * add general build env for ruby, node, python for extensions
+* CI/CD
+  * cleanup jenkins work
+  * add gocd as jenkins alterative
+* ELK
+  * add additional additional shippers for the ELK stack
+  * add kafka, redis and/or rabbitmq brokering for ELK stack
+* add NGINX
+* add artifactory
+* add ubuntu support
+* remove Mac support (isn't 100% anyway)
+* try adding talend server
+* try adding mssql server

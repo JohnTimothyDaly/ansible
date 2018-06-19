@@ -1,0 +1,51 @@
+---
+
+- name: install jenkins repo
+  get_url:
+    url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+
+- name: get jenkins repo key
+  rpm_key:
+    state: present
+    key: http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
+
+- name: install jenkins
+  yum:
+    name: jenkins
+    state: present
+
+- name: ensure jenkins is running
+  service:
+    name: jenkins
+    state: started
+    enabled: true
+
+- name: make jenkins a login account
+  user:
+    name: jenkins
+    shell: /bin/bash
+
+- name: make sure .ssh folder exists
+  file:
+    path: "{{ jenkins_app_path }}/.ssh"
+    state: directory
+    mode: 0700
+    owner: jenkins
+    group: jenkins
+
+- name: make sure id_rsa exists
+  copy:
+    src: files/id_rsa
+    dest: "{{ jenkins_app_path }}/.ssh/id_rsa"
+    owner: jenkins
+    group: jenkins
+    mode: 0600
+
+- name: make sure id_rsa.pub exists
+  copy:
+    src: files/id_rsa.pub
+    dest: "{{ jenkins_app_path }}/.ssh/id_rsa.pub"
+    owner: jenkins
+    group: jenkins
+    mode: 0644

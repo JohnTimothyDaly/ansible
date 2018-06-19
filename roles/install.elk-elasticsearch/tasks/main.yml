@@ -1,0 +1,49 @@
+---
+
+- name: install elasticsearch from the internet
+  yum:
+    name: "{{ elasticsearch_rpm_url }}"
+    state: present
+
+- name: setup the elasticsearch config
+  template:
+    src: templates/elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+
+- name: start elasticsearch
+  service:
+    name: elasticsearch
+    state: started
+    enabled: true
+
+- name: install firewalld
+  yum: 
+    name: firewalld
+    state: present
+
+- name: start firewalld
+  service:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: set firewall rule for ssh
+  firewalld:
+    service: ssh
+    state: enabled
+    permanent: true
+    immediate: true
+
+- name: set firewall rule for tcp port 9200
+  firewalld:
+    port: 9200/tcp
+    state: enabled
+    permanent: true
+    immediate: true
+
+- name: set firewall rule for upd port 9200
+  firewalld:
+    port: 9200/udp
+    state: enabled
+    permanent: true
+    immediate: true

@@ -1,0 +1,98 @@
+---
+
+- name: gather os specific variables
+  include_vars: "{{ ansible_distribution }}.yml"
+  tags: vars
+
+- name: ensure user jenkins exists
+  user:
+    name: jenkins
+    state: present
+    shell: /bin/bash
+    comment: jenkins
+    uid: 5007
+
+- name: make sure .ssh folder exists
+  file:
+    path: "{{ jenkins_user_path }}/.ssh"
+    state: directory
+    mode: 0700
+    owner: jenkins
+
+- name: make sure id_rsa exists
+  copy:
+    src: files/id_rsa
+    dest: "{{ jenkins_user_path }}/.ssh/id_rsa"
+    owner: jenkins
+    mode: 0600
+
+- name: make sure id_rsa.pub exists
+  copy:
+    src: files/id_rsa.pub
+    dest: "{{ jenkins_user_path }}/.ssh/id_rsa.pub"
+    owner: jenkins
+    mode: 0644
+
+- name: make sure authorized_keys includes jenkins master
+  authorized_key:
+    user: jenkins
+    state: present
+    key: "{{ jenkins_master_ssh_public_key }}"
+
+- name: ensure the jenkins user is sudoer with no password required
+  lineinfile: 
+    dest: /etc/sudoers 
+    state: present 
+    regexp: '^jenkins ALL\=' 
+    line: 'jenkins ALL=(ALL) NOPASSWD:ALL' 
+    validate: 'visudo -cf %s'
+
+- name: make sure .gnupg folder exists
+  file:
+    path: "{{ jenkins_user_path }}/.gnupg"
+    state: directory
+    mode: 0700
+    owner: jenkins
+
+- name: make sure mvnc_pubring.gpg exists
+  copy:
+    src: files/mvnc_pubring.gpg
+    dest: "{{ jenkins_user_path }}/.gnupg/mvnc_pubring.gpg"
+    owner: jenkins
+    mode: 0600
+
+- name: make sure mvnc_secring.gpg exists
+  copy:
+    src: files/mvnc_secring.gpg
+    dest: "{{ jenkins_user_path }}/.gnupg/mvnc_secring.gpg"
+    owner: jenkins
+    mode: 0600
+
+- name: make sure trustdb.gpg exists
+  copy:
+    src: files/trustdb.gpg
+    dest: "{{ jenkins_user_path }}/.gnupg/trustdb.gpg"
+    owner: jenkins
+    mode: 0600
+
+- name: include task for CentOS7
+  import_tasks: CentOS7.yml
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == '7'
+  tags: include
+
+- name: include task for macOS
+  import_tasks: MacOSX.yml
+  when: ansible_distribution == "MacOSX"
+  tags: include
+
+- name: make sure .m2 folder exists
+  file:
+    path: "{{ jenkins_user_path }}/.m2"
+    state: directory
+    mode: 0775
+    owner: jenkins
+
+- name: Configure maven
+  template: 
+    src: settings.xml.j2
+    dest: "{{ jenkins_user_path }}/.m2/settings.xml"

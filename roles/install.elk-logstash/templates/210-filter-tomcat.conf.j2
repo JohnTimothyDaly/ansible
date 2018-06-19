@@ -1,0 +1,15 @@
+  if [type] == "tomcat" {
+    dissect {
+      mapping => { "message" => "tomcat %{datetime} | %{ip} | %{authtoken} | %{method} %{url} %{protocol} | %{status} | %{responsetime} | %{useragent}" }
+    }
+    date {
+      locale => "en"
+      timezone => "Europe/Berlin"
+      match => ["datetime" , "dd/MMM/yyyy:HH:mm:ss Z"]
+      target => "@timestamp"
+    }
+    mutate {
+      remove_field => ["datetime"]
+      add_field => { "CID" => "test-customer-one" }
+    }
+  }

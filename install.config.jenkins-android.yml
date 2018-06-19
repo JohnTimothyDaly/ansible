@@ -1,0 +1,9 @@
+---
+
+- hosts: task-jenkins-android
+  remote_user: ansible
+  become: true
+
+  roles:
+    - install.jenkins-slave
+    - install.jenkins-android

@@ -1,0 +1,36 @@
+---
+
+- name: make sure /mnt/data/jenkins folder exists
+  file:
+    path: /mnt/data/jenkins
+    state: directory
+    mode: 0700
+    owner: jenkins
+
+- name: ensure EPEL is enabled
+  become: true
+  yum:
+    name: epel-release
+    state: present
+
+- name: run install.ruby role
+  include_role:
+    name: install.ruby
+
+- name: run install.rvm role
+  include_role:
+    name: install.rvm
+
+- name: run install.openjava role
+  include_role:
+    name: install.openjava
+
+- name: install version controll systems and java compiler
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - git
+    - subversion
+    - subversion-tools
+    - git-svn
+    - java-1.8.0-openjdk-devel
+    - maven

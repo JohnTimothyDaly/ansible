@@ -1,0 +1,49 @@
+---
+
+- name: install logstash from the internet
+  yum:
+    name: "{{ logstash_rpm_url }}"
+    state: present
+
+
+- name: install static logstash config files
+  copy:
+    src: "{{ item }}"
+    dest: /etc/logstash/conf.d
+    owner: root
+  with_fileglob:
+    - files/000-input-open.conf
+    - files/199-input-close.conf
+    - files/200-filter-open.conf
+    - files/399-filter-close.conf
+    - files/400-output-open.conf
+    - files/599-output-close.conf
+
+- name: setup input syslog tomcat
+  template:
+    src: templates/010-input-syslog-tomcat.conf.j2
+    dest: /etc/logstash/conf.d/010-input-syslog-tomcat.conf
+  when: takes_tomcat_syslog
+
+- name: setup filter syslog tomcat
+  template:
+    src: templates/210-filter-tomcat.conf.j2
+    dest: /etc/logstash/conf.d/210-filter-tomcat.conf
+  when: takes_tomcat_syslog
+
+- name: setup input syslog sds system log
+  template:
+    src: templates/020-input-syslog-sds-system-log.conf.j2
+    dest: /etc/logstash/conf.d/020-input-syslog-sds-system-log.conf
+  when: takes_sds_system_log_syslog
+
+- name: setup filter syslog sds system log
+  template:
+    src: templates/220-filter-sds-system-log.conf.j2
+    dest: /etc/logstash/conf.d/220-filter-sds-system-log.conf
+  when: takes_sds_system_log_syslog
+
+- name: setup input syslog tomcat
+  template:
+    src: templates/410-output-elasticsearch.conf.j2
+    dest: /etc/logstash/conf.d/410-output-elasticsearch.conf

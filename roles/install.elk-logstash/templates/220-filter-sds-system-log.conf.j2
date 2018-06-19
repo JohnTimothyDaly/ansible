@@ -1,0 +1,21 @@
+  if [type] == "sdssyslog" {
+    dissect {
+      mapping => { "message" => "%{header} -%{second} -%{third} -%{fourth} -%{json_string}" }
+    }
+    json {
+      source => "json_string"
+      target => "json"
+    }
+    dissect {
+      mapping => { "header" => "<%{prival}>%{@version} %{issuetime} %{domainname} %{productname}" }
+    }
+    date {
+      match => ["issuetime" , "yyyy-MM-dd'T'HH:mm:ss.SSSZ"]
+      target => "@timestamp"
+    }
+    mutate {
+      remove_field => ["second", "third", "fourth", "json_string", "header", "issuetime"]
+      replace => { "type" => "sds" }
+      add_field => { "CID" => "test-customer-one" }
+    }
+  }
