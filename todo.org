@@ -16,3 +16,4 @@ TODO
 * remove Mac support (isn't 100% anyway)
 * try adding talend server
 * try adding mssql server
+* add FreeTDS for connection to MSSQL and freetds-devel

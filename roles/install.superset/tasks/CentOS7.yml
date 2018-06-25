@@ -1,0 +1,26 @@
+---
+
+- name: ensure EPEL is enabled
+  become: true
+  yum:
+    name: epel-release
+    state: present
+
+- name: ensure python setuptools is up to date
+  become: true
+  yum:
+    name: python-setuptools
+    state: latest
+
+- name: install version controll systems and java compiler
+  yum: pkg={{ item }} state=present
+  with_items:
+    - gcc
+    - gcc-c++
+    - libffi-devel
+    - python-devel
+    - python-pip
+    - python-wheel
+    - openssl-devel
+    - libsasl2-devel
+    - openldap-devel

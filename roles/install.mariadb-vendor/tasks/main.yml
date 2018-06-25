@@ -10,6 +10,16 @@
     name: MariaDB-client
     state: present
 
+- name: Install MariaDB Shared
+  package:
+    name: MariaDB-shared
+    state: present
+
+- name: Install MariaDB Devel
+  package:
+    name: MariaDB-devel
+    state: present
+
 - name: Enable and run MariaDB
   service:
     name: mariadb
