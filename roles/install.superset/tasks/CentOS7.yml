@@ -12,15 +12,62 @@
     name: python-setuptools
     state: latest
 
-- name: install version controll systems and java compiler
-  yum: pkg={{ item }} state=present
-  with_items:
-    - gcc
-    - gcc-c++
-    - libffi-devel
-    - python-devel
-    - python-pip
-    - python-wheel
-    - openssl-devel
-    - libsasl2-devel
-    - openldap-devel
+- name: install gcc
+  become: true
+  yum:
+    name: gcc
+    state: present
+
+- name: install gcc-c++
+  become: true
+  yum:
+    name: gcc-c++
+    state: present
+
+- name: install libffi-devel
+  become: true
+  yum:
+    name: libffi-devel
+    state: present
+
+- name: install python-devel
+  become: true
+  yum:
+    name: python-devel
+    state: present
+
+- name: install python-pip
+  become: true
+  yum:
+    name: python-pip
+    state: present
+
+- name: install python-wheel
+  become: true
+  yum:
+    name: python-wheel
+    state: present
+
+- name: install openssl-devel
+  become: true
+  yum:
+    name: openssl-devel
+    state: present
+
+- name: install cyrus-sasl-devel
+  become: true
+  yum:
+    name: cyrus-sasl-devel
+    state: present
+
+- name: install openldap-devel
+  become: true
+  yum:
+    name: openldap-devel
+    state: present
+
+- name: install PyYAML
+  become: true
+  yum:
+    name: PyYAML
+    state: absent
